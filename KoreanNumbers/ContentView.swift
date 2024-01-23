@@ -16,142 +16,140 @@ import SwiftUI
 
 struct SinoKorean: View {
     
-    var a_number: String
-    
-    let units = ["", "일","이", "삼", "사", "오", "육", "칠", "팔", "구"]
-    let place_values = ["", "십","백","천","만","억","조"]
+    @State private var showAnswer = false
+    @State private var buttonTitle = "Show Answer"
+    var aNumber: String
+    var answerString: String = ""
+    let ones = ["", "일","이", "삼", "사", "오", "육", "칠", "팔", "구"]
+    let placeValues = ["", "십","백","천","만","억","조"]
     
     
 //    Get the length of our number
-    func get_number_length() -> Int {
-        return a_number.count
+    func getNumberLength() -> Int {
+        return aNumber.count
     }
     
 //    Get all the place values matching the length of the number
 //    If our number has 3 digits, it returns ["백", "십", ""]
-    func get_place_values() -> [String]  {
-        let length = get_number_length()
-        return Array(place_values[0..<length].reversed())
+    func getPlaceValues() -> [String]  {
+        let length = getNumberLength()
+        return Array(placeValues[0..<length].reversed())
     }
     
 //    Returns all the unit names , if we have 123, it returns the array ["일", "이", "삼"]
-    func get_digit_names() -> [String] {
-        var digit_names : [String] = []
+    func getDigitNames() -> [String] {
+        var digitNames : [String] = []
 //      digit is of type Char
 //      The method wholeNumberValue on Char returns an optional Int
-        for digit in a_number {
+        for digit in aNumber {
             
             if let digitValue = digit.wholeNumberValue {
-                digit_names.append(units[digitValue])
-                print(digit_names)
+                digitNames.append(ones[digitValue])
+               
                 
-            } else { print("Something went wrong")
-                
+            } else { 
+                print("Something went wrong")
             }
             
         }
-        return digit_names
+        return digitNames
     }
 
-    
 
-    
-    func convert_number() -> String {
-        var converted_number = ""
-        let length = get_number_length()
-        let place_values = get_place_values()
-        let digit_names = get_digit_names()
+    func convertNumber(number: String ) -> String {
+        
+        var convertedNumber = ""
+        let length = getNumberLength()
+        let placeValues = getPlaceValues()
+        let digitNames = getDigitNames()
         
         
         if length < 2 {
-            converted_number = digit_names[0].isEmpty ? "영" : digit_names[0]
+            convertedNumber = digitNames[0].isEmpty ? "영" : digitNames[0]
         } else {
            
-            var digit_name = ""
-            var place_value = ""
             for index in 0..<length  {
                 
-                digit_name = digit_names[index]
-               
-                place_value = place_values[index]
+                let digitName = digitNames[index]
+                let placeValue = placeValues[index]
                 
+                
+                if digitName == "일" {
+                    convertedNumber += (index == length-1 ) ? digitName : placeValue
+                }
 
-                if digit_name == "일" {
-                    if index == get_number_length() - 1 {
-                        converted_number += digit_name
-                    }
-                    else {
-                        converted_number += place_value
-                    }
-                 
-                }
-                
-                else if digit_name == "" {
-                    converted_number += digit_name
-                }
-                
-                
                 else {
     
-                    converted_number += digit_name
-                    converted_number += place_value
+                    convertedNumber += digitName
+                    convertedNumber += placeValue
                 }
 
             }
            
         }
-        return converted_number
+        return convertedNumber
     }
     
 
     var body: some View {
         
+       
         VStack {
            
             
-            Button("Show Answer") {
-               
-                print(convert_number())
+            Button(buttonTitle) {
+                
+                buttonTitle = showAnswer ? "Show Answer" : "Hide Answer"
+                showAnswer.toggle()
+                
              
             }
+    
 
+        }
+        
+        VStack {
+            if showAnswer {
+                Text(convertNumber(number: aNumber)).font(.largeTitle)
+                    
+            }
         }
         
     }
 }
 
 struct NativeKorean: View {
-
-    var a_number: String
     
-    let units = ["","하나", "둘", "셋", "넷", "다섯", "여섯", "일홉", "여덟", "아홉"]
+    @State private var showAnswer = false
+    @State private var buttonTitle = "Show Answer"
+    
+    var aNumber: String
+    let ones = ["","하나", "둘", "셋", "넷", "다섯", "여섯", "일홉", "여덟", "아홉"]
     let tens = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"]
     
     //    Get the length of our number
-    func get_number_length() -> Int {
-            return a_number.count
+    func getNumberLength() -> Int {
+            return aNumber.count
         }
 
-    func convert_number() -> String {
+    func convertNumber(number: String) -> String {
         
         var convertedNumber = ""
-        let length = get_number_length()
+        let length = getNumberLength()
+        
         
         if length < 2  {
-            let index = Int(a_number) ?? 0
-            if index == 0 {
-                convertedNumber = "공"
+            
+            if let index = Int(aNumber) {
+                convertedNumber = (index == 0) ? "공" : ones[index]
             }
-            convertedNumber += units[index]
-        }
-        else {
+        } else {
             
-            let first_digit =  Int(a_number.prefix(1)) ?? 0
-            let second_digit = Int(a_number.suffix(1)) ?? 0
-            
-            convertedNumber += tens[first_digit]
-            convertedNumber += units[second_digit]
+            if let firstDigit = Int(aNumber.prefix(1)), let secondDigit = Int(aNumber.suffix(1)) {
+                
+                convertedNumber += tens[firstDigit] + ones[secondDigit]
 
+            }
         }
 
         return convertedNumber
@@ -166,16 +164,16 @@ struct NativeKorean: View {
         var showAnswer = false
         VStack {
             
-            Button("Show Answer") {
-               
-                 print(convert_number())
-                 showAnswer.toggle()
+            Button(buttonTitle) {
                 
-               
+                buttonTitle = showAnswer ? "Show Answer" : "Hide Answer"
+                showAnswer.toggle()
+                
+             
             }
             
             if showAnswer {
-                Text(convert_number())
+                Text(convertNumber(number: aNumber))
             }
 
            
@@ -252,13 +250,13 @@ struct ContentView: View {
             Section("\(numberType)") {
                 
                 if numberType == "Sino-Korean" {
-                    SinoKorean(a_number: currentNumber )
+                    SinoKorean(aNumber: currentNumber )
                     
                 }
                 
                 else if numberType == "Native-Korean"{
                     
-                    NativeKorean(a_number: currentNumber)
+                    NativeKorean(aNumber: currentNumber)
                 }
                 
                 else {
@@ -317,6 +315,7 @@ struct ContentView: View {
             
         }
     
+//        TextField limit maybe is better?
         func areWithinLimit(min: Int, max: Int) -> Bool {
             
             let limit: Int = 1000000
