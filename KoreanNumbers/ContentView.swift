@@ -6,10 +6,6 @@
 
 // GOAL: Application that teaches how to say a number in Korean. The answer can be in either Native or Sino-Korean
 
-// TO-DOS:
-
-// Reduce the range from 0 to 99 for Native numbers
-
 
 import SwiftUI
 
@@ -31,11 +27,7 @@ struct SinoKorean: View {
     
 //    Get all the place values matching the length of the number
 //    If our number has 3 digits, it returns ["백", "십", ""]
-    func getPlaceValues() -> [String]  {
-        let length = getNumberLength()
-        return Array(placeValues[0..<length].reversed())
-    }
-    
+ 
 //    Returns all the unit names , if we have 123, it returns the array ["일", "이", "삼"]
     func getDigitNames() -> [String] {
         var digitNames : [String] = []
@@ -45,49 +37,59 @@ struct SinoKorean: View {
             
             if let digitValue = digit.wholeNumberValue {
                 digitNames.append(ones[digitValue])
-               
+                
                 
             } else { 
                 print("Something went wrong")
             }
             
         }
-        return digitNames
+        return digitNames.reversed()
     }
 
 
     func convertNumber(number: String ) -> String {
         
         var convertedNumber = ""
+        var groupIndex = 0
         let length = getNumberLength()
-        let placeValues = getPlaceValues()
         let digitNames = getDigitNames()
-        
+      
         
         if length < 2 {
-            convertedNumber = digitNames[0].isEmpty ? "영" : digitNames[0]
+            convertedNumber = digitNames[0] == "" ? "영" : digitNames[0]
         } else {
            
-            for index in 0..<length  {
+            
+            for index in 0 ..< length {
                 
-                let digitName = digitNames[index]
-                let placeValue = placeValues[index]
-                
-                
-                if digitName == "일" {
-                    convertedNumber += (index == length-1 ) ? digitName : placeValue
+                if index % 4 == 0 && index > 0 {
+                    convertedNumber += placeValues[4 + groupIndex] + digitNames[index + groupIndex]
+                    
+                    groupIndex += 1
                 }
-
+                
                 else {
-    
-                    convertedNumber += digitName
-                    convertedNumber += placeValue
+//                    Different logic for 1
+                    if index > 0 && digitNames[index] == "일" {
+                        convertedNumber += placeValues[ index % 4 ]
+                    }
+                    else {
+                        
+                        convertedNumber += (digitNames[index] != "") ?   placeValues[index % 4 ] +  digitNames[index] : ""
+                    
+                        
+                    }
+                   
+                
+                    
                 }
+                
 
             }
            
         }
-        return convertedNumber
+        return String(convertedNumber.reversed())
     }
     
 
@@ -161,7 +163,8 @@ struct NativeKorean: View {
     
     var body: some View {
         
-        var showAnswer = false
+       
+        
         VStack {
             
             Button(buttonTitle) {
@@ -172,8 +175,12 @@ struct NativeKorean: View {
              
             }
             
-            if showAnswer {
-                Text(convertNumber(number: aNumber))
+            VStack {
+                
+                if showAnswer {
+                    Text(convertNumber(number: aNumber)).font(.largeTitle)
+                        
+                }
             }
 
            
@@ -190,8 +197,9 @@ struct ContentView: View {
     
     @State private var typeOptions = ["Native-Korean","Sino-Korean"]
     @State private var numberType = ""
-    @State private var minNumber = 1
-    @State private var maxNumber = 99
+    @State private var minNumber = 0
+    @State private var maxNumber = 0
+   
     
     //    The generated number
     //    The answer i.e. the Korean spelling of the number
@@ -219,17 +227,43 @@ struct ContentView: View {
                             Text(type)
                         }
                     }.pickerStyle(.segmented)
-                    
+                        .onChange(of: numberType) {
+                            // Reset minNumber and maxNumber to 0 when the numberType changes
+                            resetNumbers()
+                        }
                     
                     
                     HStack {
                         
+                        if numberType == "Sino-Korean" {
+                            
+                          
+                            TextField("Minimum", value: $minNumber, format: .number)
+                                .keyboardType(.numberPad)
+                           
+                            TextField("Maximum", value: $maxNumber, format: .number)
+                                .keyboardType(.numberPad)
+                        }
                         
-                        TextField("Minimum", value: $minNumber, format: .number)
-                            .keyboardType(.numberPad)
+                        if numberType == "Native-Korean" {
+                            
+                       
+    
+                            
+                            
+                            Picker("Minimum Number", selection: $minNumber) {
+                                ForEach(0..<100) {
+                                    Text("\($0) ")
+                                }
+                            }
+                            Picker("Maximum Number", selection: $maxNumber) {
+                                ForEach(minNumber..<100) {
+                                    Text("\($0) ")
+                                }
+                            }
                         
-                        TextField("Maximum", value: $maxNumber, format: .number)
-                            .keyboardType(.numberPad)
+                            
+                        }
                         
                     }
                     
@@ -254,15 +288,12 @@ struct ContentView: View {
                     
                 }
                 
-                else if numberType == "Native-Korean"{
+                if numberType == "Native-Korean"{
                     
                     NativeKorean(aNumber: currentNumber)
                 }
                 
-                else {
-                    
-                }
-                
+              
                 
                 
             }
@@ -272,7 +303,11 @@ struct ContentView: View {
     }
         
         
-
+        func resetNumbers() {
+            maxNumber = 0
+            minNumber = 0
+            
+        }
         func generateNumber() -> String {
             
             
@@ -318,7 +353,7 @@ struct ContentView: View {
 //        TextField limit maybe is better?
         func areWithinLimit(min: Int, max: Int) -> Bool {
             
-            let limit: Int = 1000000
+            let limit: Int = 1000000000000
             let result = (min < limit) && (max < limit) ? true : false
             return result
             
