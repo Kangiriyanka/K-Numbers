@@ -10,17 +10,33 @@
 import SwiftUI
 
 
+
+extension View {
+    func limitDigits(_ number: Binding<Int>, to digitLimit: Int) -> some View {
+        self
+            .onChange(of: number.wrappedValue) {
+                let numberString = String(number.wrappedValue)
+                if numberString.count > digitLimit {
+                    let shortenedNumber = String(numberString.prefix(digitLimit))
+                    
+                    number.wrappedValue  = Int(shortenedNumber) ?? 0
+                }
+            }
+    }
+}
+
 struct SinoKorean: View {
     
     @State private var showAnswer = false
     @State private var buttonTitle = "Show Answer"
     var aNumber: String
+   
     var answerString: String = ""
     let ones = ["", "일","이", "삼", "사", "오", "육", "칠", "팔", "구"]
     let placeValues = ["", "십","백","천","만","억","조"]
     
     
-//    Get the length of our number
+//    Get the length of our number0
     func getNumberLength() -> Int {
         return aNumber.count
     }
@@ -49,7 +65,7 @@ struct SinoKorean: View {
 
 
     func convertNumber(number: String ) -> String {
-        
+       
         var convertedNumber = ""
         var groupIndex = 0
         let length = getNumberLength()
@@ -62,9 +78,14 @@ struct SinoKorean: View {
            
             
             for index in 0 ..< length {
-                
+               
                 if index % 4 == 0 && index > 0 {
-                    convertedNumber += placeValues[4 + groupIndex] + digitNames[index + groupIndex]
+                    
+                    convertedNumber +=
+                     (digitNames[index] == "일") ?
+                    
+                    " " + placeValues[4 + groupIndex] :
+                     " " + placeValues[4 + groupIndex] + digitNames[index ]
                     
                     groupIndex += 1
                 }
@@ -80,12 +101,9 @@ struct SinoKorean: View {
                     
                         
                     }
-                   
-                
-                    
+ 
                 }
-                
-
+  
             }
            
         }
@@ -199,7 +217,9 @@ struct ContentView: View {
     @State private var numberType = ""
     @State private var minNumber = 0
     @State private var maxNumber = 0
-   
+
+    
+      
     
     //    The generated number
     //    The answer i.e. the Korean spelling of the number
@@ -240,16 +260,17 @@ struct ContentView: View {
                           
                             TextField("Minimum", value: $minNumber, format: .number)
                                 .keyboardType(.numberPad)
+                                .limitDigits($minNumber, to: 13)
+                            
                            
                             TextField("Maximum", value: $maxNumber, format: .number)
                                 .keyboardType(.numberPad)
+                                .limitDigits($maxNumber, to: 13)
+                                
                         }
                         
                         if numberType == "Native-Korean" {
-                            
-                       
-    
-                            
+                
                             
                             Picker("Minimum Number", selection: $minNumber) {
                                 ForEach(0..<100) {
@@ -257,7 +278,7 @@ struct ContentView: View {
                                 }
                             }
                             Picker("Maximum Number", selection: $maxNumber) {
-                                ForEach(minNumber..<100) {
+                                ForEach(0..<100) {
                                     Text("\($0) ")
                                 }
                             }
@@ -308,6 +329,7 @@ struct ContentView: View {
             minNumber = 0
             
         }
+    
         func generateNumber() -> String {
             
             
@@ -315,20 +337,18 @@ struct ContentView: View {
                 
                 rangeError(title: "Negative number detected", message: "Please enter positive numbers")
                 
+                resetNumbers()
+                
                 return ""
                 
             }
             
-            guard areWithinLimit(min: minNumber, max: maxNumber) else {
-                rangeError(title: "Big number detected", message: "Please enter a number below 1 billion")
-              
-                
-                return ""
-             }
+    
             
             guard coherentRange(min: minNumber, max: maxNumber) else {
                 rangeError(title: "Incoherent range", message: "The minimum must be smaller or equal than the  maximum")
-              
+                resetNumbers()
+                
                 
                 return ""
              }
@@ -345,22 +365,17 @@ struct ContentView: View {
             
             
             let result = (min >= 0) && (max >= 0) ? true : false
+           
             return result
             
             
         }
-    
-//        TextField limit maybe is better?
-        func areWithinLimit(min: Int, max: Int) -> Bool {
-            
-            let limit: Int = 1000000000000
-            let result = (min < limit) && (max < limit) ? true : false
-            return result
-            
-        }
-    
+
         func coherentRange(min: Int, max: Int) -> Bool {
-            let result = (min <= max)
+            let result = min <= max
+            print(result)
+            
+           
             return result
         }
     
