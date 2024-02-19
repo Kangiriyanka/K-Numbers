@@ -15,18 +15,18 @@ import SwiftUI
 
 // Styles
 struct BoldCenteredText: ViewModifier {
-    @State var opacity = 0.4
+    
     
     func body(content: Content) -> some View {
         
         content
             .font(.title)
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .center)
-            .listRowBackground(Color.clear)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(5)
             .foregroundStyle(Color.customKoreanBlue)
             .bold()
-            .animation(.spring, value: opacity)
+          
+            
         
     }
 
@@ -38,22 +38,18 @@ struct BlueButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-        
-            .font(.title3)
-            .frame(maxWidth: .infinity, alignment: .center)
+            .frame( maxWidth: .infinity, alignment: .leading)
+            .font(.title2)
+           
             .background(Color.customKoreanBlue)
             .foregroundStyle(.white)
             .clipShape(Capsule())
         
-            .scaleEffect(configuration.isPressed ? 1.2 : 1)
-            .animation(.spring(duration: 0.2), value: configuration.isPressed)
+        
+            
+            
     }
 }
-
-
-
-
-
 
 
 
@@ -73,11 +69,14 @@ extension View {
         modifier(BoldCenteredText())
     }
     
+ 
+    
     
 }
 
 extension Color {
     static let customKoreanBlue = Color(red: 0 / 255.0, green: 71 / 255.0, blue: 140 / 255.0)
+        
     static let customKoreanYellow = Color(red: 233 / 255.0, green: 180 / 255.0, blue: 58 / 255.0)
 }
 
@@ -122,7 +121,7 @@ struct SinoKorean: View {
     
     func convertNumber(number: String ) -> String {
         
-        print(number)
+      
         var convertedNumber = ""
         var groupIndex = 0
         let length = getNumberLength()
@@ -169,10 +168,7 @@ struct SinoKorean: View {
     
     var body: some View {
         
-        
-        
-        
-        
+
         Button(buttonTitle) {
             
             buttonTitle = showAnswer ? "Show Answer" : "Hide Answer"
@@ -240,10 +236,7 @@ struct NativeKorean: View {
     
     var body: some View {
         
-        
-        
-        
-        
+
         Button(buttonTitle) {
             
             buttonTitle = showAnswer ? "Show Answer" : "Hide Answer"
@@ -252,10 +245,7 @@ struct NativeKorean: View {
             
         }.buttonStyle(BlueButton())
         
-        
-        
-        
-        
+
         
         if showAnswer && !nativeKoreanNumber.isEmpty {
             Text(convertNumber(number: nativeKoreanNumber)).boldCenteredStyle()
@@ -270,14 +260,12 @@ struct NativeKorean: View {
 
 struct ContentView: View {
     
-
-    
     //    Options for the variables
     //    Range between minNumber and maxNumber
     //    The number type:  Native or Sino-Korean
     
     @State private var typeOptions = ["Native-Korean", "Sino-Korean"]
-    @State private var numberType = ""
+    @State private var numberType = "Native-Korean"
     @State private var minNumber = 0
     @State private var maxNumber = 0
     
@@ -287,139 +275,155 @@ struct ContentView: View {
     
     @State private var currentNumber = "0"
     @State private var answer = ""
-    @State private var isShown = false
+    
     
     //    Error handling for the ranges
     @State private var showingError = false
     @State private var errorMessage = ""
     @State private var errorTitle = ""
     
-    
-    
-    
-    
+
+    @FocusState var isInputActive: Bool
     var body: some View {
         
         
         NavigationStack {
-            
-            List {
-                Section("Type & Number Range") {
-                    VStack {
-                        
-                        Text("Number Type").foregroundStyle(Color.customKoreanBlue)
-                            .bold()
-                        Picker("Number Type", selection: $numberType) {
-                            ForEach(typeOptions, id: \.self) { type in
-                                
-                                Text(type)
-                                
-                            }
-                        }.pickerStyle(.segmented)
-                        
-                        
-                            .onChange(of: numberType) {
-                              
-                                resetNumbers()
-                            }
-                        
-                        
-                        HStack {
+            ZStack {
+                List {
+                    Section("Type & Number Range") {
+                        VStack {
                             
-                            if numberType == "Sino-Korean" {
-                                
-                                
-                                TextField("Minimum", value: $minNumber, format: .number)
-                                    .keyboardType(.numberPad)
-                                    .limitDigits($minNumber, to: 13)
-                                    .bold()
-                                    .padding()
-                                    .foregroundStyle(Color.customKoreanBlue)
-                                
-
-                                
-                                TextField("Maximum", value: $maxNumber, format: .number)
-                                    .keyboardType(.numberPad)
-                                    .limitDigits($maxNumber, to: 13)
-                                    .bold()
-                                    .padding()
-                                    .foregroundStyle(Color.customKoreanBlue)
-                                
-                            }
-                            
-                            if numberType == "Native-Korean" {
-                                
-                                
-                                Picker("Minimum:", selection: $minNumber) {
-                                    ForEach((0..<100), id: \.self) {
-                                        Text("\($0) ")
-                                    }
-                                }
-                                .pickerStyle(.menu)
+                            Text("Number Type").foregroundStyle(Color.customKoreanBlue)
                                 .bold()
-                                .padding(2)
-                                
-                                Picker("Maximum:", selection: $maxNumber) {
-                                    ForEach((0..<100), id: \.self) {
-                                        Text("\($0) ")
-                                    }
+                            Picker("Number Type", selection: $numberType) {
+                                ForEach(typeOptions, id: \.self) { type in
+                                    
+                                    Text(type)
+                                    
                                 }
-                                .pickerStyle(.menu)
-                                .bold()
-                                .padding(2)
+                            }.pickerStyle(.segmented)
+                            
+                            
+                                .onChange(of: numberType) {
+                                    
+                                    resetNumbers()
+                                }
+                            
+                            
+                            HStack {
                                 
+                                if numberType == "Sino-Korean" {
+                                    
+                                    
+                                    TextField("Minimum", value: $minNumber, format: .number)
+                                        .keyboardType(.numberPad)
+                                        .limitDigits($minNumber, to: 13)
+                                        .bold()
+                                        .padding()
+                                        .focused($isInputActive)
+                                        
+                                       
+                                    
+                                    
+                                    
+                                    
+                                    TextField("Maximum", value: $maxNumber, format: .number)
+                                        .keyboardType(.numberPad)
+                                        .limitDigits($maxNumber, to: 13)
+                                        .bold()
+                                        .padding()
+                                        .focused($isInputActive)
+                                        .toolbar {
+                                            ToolbarItemGroup(placement: .keyboard) {
+                                                Spacer()
+                                                
+                                                Button("Done") {
+                                                    isInputActive = false
+                                                }
+                                            }
+                                        }
+                                     
+                                    
+                                    
+                                    
+                                    
+                                }
                                 
-                                
+                                if numberType == "Native-Korean" {
+                                    
+                                    
+                                    Picker("Minimum:", selection: $minNumber) {
+                                        ForEach((0..<100), id: \.self) {
+                                            Text("\($0) ")
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .bold()
+                                    .padding(2)
+                                    
+                                    Picker("Maximum:", selection: $maxNumber) {
+                                        ForEach((0..<100), id: \.self) {
+                                            Text("\($0) ")
+                                        }
+                                    }
+                                    .pickerStyle(.menu)
+                                    .bold()
+                                    .padding(2)
+                                    
+                                    
+                                    
+                                    
+                                }
                                 
                             }
                             
+                            
+                            
+                        }
+                    }
+                    Button("Generate") {
+                        currentNumber = generateNumber()
+                    }
+                    .buttonStyle(BlueButton())
+                    
+                    
+                    
+                    
+                    Section("Your number") {
+                        
+                        
+                        Text("\(currentNumber)").boldCenteredStyle()
+                    }
+                    
+                    Section("\(numberType)") {
+                        
+                        if numberType == "Sino-Korean" {
+                            SinoKorean(sinoKoreanNumber: currentNumber)
+                            
+                        }
+                        
+                        if numberType == "Native-Korean"{
+                            
+                            NativeKorean(nativeKoreanNumber: currentNumber)
                         }
                         
                         
                         
-                    }
-                }
-                Button("Generate") {
-                    currentNumber = generateNumber()
-                }
-                .buttonStyle(BlueButton())
-                
-                
-                
-                
-                Section("Your number") {
-                    
-                    
-                    Text("\(currentNumber)").boldCenteredStyle()
-                }
-                
-                Section("\(numberType)") {
-                    
-                    if numberType == "Sino-Korean" {
-                        SinoKorean(sinoKoreanNumber: currentNumber)
                         
                     }
-                    
-                    if numberType == "Native-Korean"{
-                        
-                        NativeKorean(nativeKoreanNumber: currentNumber)
-                    }
-                    
-                    
-                    
-                    
                 }
+                
+                .navigationTitle("Korean Numbers")
+                
+                .listStyle(.insetGrouped)
+                
+               
             }
-            .navigationTitle("Korean Numbers")
+
             
-            .listStyle(.automatic)
         }
-        
-        
-        
-        
-        
-        .alert(errorTitle, isPresented: $showingError) { } message: {
+
+        .alert(errorTitle, isPresented:$showingError) { } message: {
             Text(errorMessage)
         }
         
@@ -434,6 +438,7 @@ struct ContentView: View {
         currentNumber = "0"
         maxNumber = 0
         minNumber = 0
+        
      
         
     }
