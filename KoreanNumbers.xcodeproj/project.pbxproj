@@ -14,6 +14,7 @@
 		41692FF72B442EDF000823FD /* KoreanNumbersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41692FF62B442EDF000823FD /* KoreanNumbersTests.swift */; };
 		416930012B442EDF000823FD /* KoreanNumbersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416930002B442EDF000823FD /* KoreanNumbersUITests.swift */; };
 		416930032B442EDF000823FD /* KoreanNumbersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416930022B442EDF000823FD /* KoreanNumbersUITestsLaunchTests.swift */; };
+		8200AC9E2DFB4ED100D88827 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200AC9D2DFB4ED100D88827 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		41692FFC2B442EDF000823FD /* KoreanNumbersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KoreanNumbersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		416930002B442EDF000823FD /* KoreanNumbersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanNumbersUITests.swift; sourceTree = "<group>"; };
 		416930022B442EDF000823FD /* KoreanNumbersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanNumbersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8200AC9D2DFB4ED100D88827 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				41692FE52B442EDB000823FD /* KoreanNumbersApp.swift */,
+				8200AC9D2DFB4ED100D88827 /* Extensions.swift */,
 				41692FE72B442EDB000823FD /* ContentView.swift */,
 				41692FE92B442EDF000823FD /* Assets.xcassets */,
 				41692FEB2B442EDF000823FD /* Preview Content */,
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41692FE82B442EDB000823FD /* ContentView.swift in Sources */,
+				8200AC9E2DFB4ED100D88827 /* Extensions.swift in Sources */,
 				41692FE62B442EDB000823FD /* KoreanNumbersApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,6 +489,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PWG234D888;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -504,6 +509,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PWG234D888;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
