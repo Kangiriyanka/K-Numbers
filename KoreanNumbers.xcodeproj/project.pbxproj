@@ -15,6 +15,9 @@
 		416930012B442EDF000823FD /* KoreanNumbersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416930002B442EDF000823FD /* KoreanNumbersUITests.swift */; };
 		416930032B442EDF000823FD /* KoreanNumbersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416930022B442EDF000823FD /* KoreanNumbersUITestsLaunchTests.swift */; };
 		8200AC9E2DFB4ED100D88827 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8200AC9D2DFB4ED100D88827 /* Extensions.swift */; };
+		8286D2072E03306E001DE8E2 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8286D2062E03306E001DE8E2 /* InfoView.swift */; };
+		829480A52DFD151F0023C2E4 /* SinoKoreanConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829480A42DFD151F0023C2E4 /* SinoKoreanConverter.swift */; };
+		829480A72DFD2EDB0023C2E4 /* NativeKoreanConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829480A62DFD2EDB0023C2E4 /* NativeKoreanConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,9 @@
 		416930002B442EDF000823FD /* KoreanNumbersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanNumbersUITests.swift; sourceTree = "<group>"; };
 		416930022B442EDF000823FD /* KoreanNumbersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanNumbersUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8200AC9D2DFB4ED100D88827 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		8286D2062E03306E001DE8E2 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		829480A42DFD151F0023C2E4 /* SinoKoreanConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinoKoreanConverter.swift; sourceTree = "<group>"; };
+		829480A62DFD2EDB0023C2E4 /* NativeKoreanConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeKoreanConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,9 @@
 				41692FE52B442EDB000823FD /* KoreanNumbersApp.swift */,
 				8200AC9D2DFB4ED100D88827 /* Extensions.swift */,
 				41692FE72B442EDB000823FD /* ContentView.swift */,
+				8286D2062E03306E001DE8E2 /* InfoView.swift */,
+				829480A42DFD151F0023C2E4 /* SinoKoreanConverter.swift */,
+				829480A62DFD2EDB0023C2E4 /* NativeKoreanConverter.swift */,
 				41692FE92B442EDF000823FD /* Assets.xcassets */,
 				41692FEB2B442EDF000823FD /* Preview Content */,
 			);
@@ -194,7 +203,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
 					41692FE12B442EDB000823FD = {
 						CreatedOnToolsVersion = 15.0;
@@ -260,8 +269,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				829480A52DFD151F0023C2E4 /* SinoKoreanConverter.swift in Sources */,
+				829480A72DFD2EDB0023C2E4 /* NativeKoreanConverter.swift in Sources */,
 				41692FE82B442EDB000823FD /* ContentView.swift in Sources */,
 				8200AC9E2DFB4ED100D88827 /* Extensions.swift in Sources */,
+				8286D2072E03306E001DE8E2 /* InfoView.swift in Sources */,
 				41692FE62B442EDB000823FD /* KoreanNumbersApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +346,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = PWG234D888;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -397,6 +410,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = PWG234D888;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -427,7 +441,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KoreanNumbers/Preview Content\"";
-				DEVELOPMENT_TEAM = PWG234D888;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = KNumbers;
@@ -459,7 +472,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KoreanNumbers/Preview Content\"";
-				DEVELOPMENT_TEAM = PWG234D888;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = KNumbers;
@@ -485,11 +497,9 @@
 		4169300A2B442EDF000823FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = PWG234D888;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -505,11 +515,9 @@
 		4169300B2B442EDF000823FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = PWG234D888;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -525,7 +533,7 @@
 		4169300D2B442EDF000823FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -542,7 +550,7 @@
 		4169300E2B442EDF000823FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

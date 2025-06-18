@@ -473,7 +473,18 @@ struct ContentView: View {
             
             
             
+            
             .navigationTitle("Korean Numbers")
+            .toolbar {
+                ToolbarItem {
+                    NavigationLink(destination: InfoView()) {
+                           Image(systemName: "info.circle")
+                            
+                            
+                       }
+                }
+               
+            }
             
             
             
@@ -482,7 +493,9 @@ struct ContentView: View {
         
         .alert(errorTitle, isPresented:$showingError) { } message: {
             Text(errorMessage)
+              
         }
+      
         
     }
     

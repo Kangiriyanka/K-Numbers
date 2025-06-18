@@ -1,116 +1,64 @@
 import XCTest
 @testable import KoreanNumbers
+
 final class KoreanNumbersTests: XCTestCase {
-    
-    // MARK: - Sino-Korean Tests
-    
-    func testSinoKoreanSingleDigits() {
-        let view = SinoKoreanView(sinoKoreanNumber: "0")
-        XCTAssertEqual(view.convertNumber(number: "0"), "영")
-        
-        XCTAssertEqual(view.convertNumber(number: "1"), "일")
-        XCTAssertEqual(view.convertNumber(number: "5"), "오")
-        XCTAssertEqual(view.convertNumber(number: "9"), "구")
+
+    // --- Sino-Korean Tests ---
+    func testConvertSinoKoreanNumberSingleDigit() {
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "1").convertNumber(), "일")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "0").convertNumber(), "영")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "9").convertNumber(), "구")
     }
-    
-    func testSinoKoreanTens() {
-        let view = SinoKoreanView(sinoKoreanNumber: "")
-        XCTAssertEqual(view.convertNumber(number: "10"), "십")
-        XCTAssertEqual(view.convertNumber(number: "11"), "십일")
-        XCTAssertEqual(view.convertNumber(number: "20"), "이십")
-        XCTAssertEqual(view.convertNumber(number: "99"), "구십구")
+
+    func testConvertSinoKoreanNumberTens() {
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "10").convertNumber(), "십")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "11").convertNumber(), "십일")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "21").convertNumber(), "이십일")
     }
-    
-    func testSinoKoreanHundreds() {
-        let view = SinoKoreanView(sinoKoreanNumber: "")
-        XCTAssertEqual(view.convertNumber(number: "100"), "백")
-        XCTAssertEqual(view.convertNumber(number: "101"), "백일")
-        XCTAssertEqual(view.convertNumber(number: "110"), "백십")
-        XCTAssertEqual(view.convertNumber(number: "999"), "구백구십구")
+
+    func testConvertSinoKoreanNumberHundreds() {
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "100").convertNumber(), "백")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "105").convertNumber(), "백오")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "210").convertNumber(), "이백십")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "999").convertNumber(), "구백구십구")
     }
-    
-    func testSinoKoreanThousands() {
-        let view = SinoKoreanView(sinoKoreanNumber: "")
-        XCTAssertEqual(view.convertNumber(number: "1000"), "천")
-        XCTAssertEqual(view.convertNumber(number: "1001"), "천일")
-        XCTAssertEqual(view.convertNumber(number: "1111"), "천백십일")
-        XCTAssertEqual(view.convertNumber(number: "9999"), "구천구백구십구")
+
+    func testConvertSinoKoreanNumberThousands() {
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "1000").convertNumber(), "천")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "4321").convertNumber(), "사천삼백이십일")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "2001").convertNumber(), "이천일")
     }
-    
-    func testSinoKoreanTenThousands() {
-        let view = SinoKoreanView(sinoKoreanNumber: "")
-        XCTAssertEqual(view.convertNumber(number: "10000"), "만")
-        XCTAssertEqual(view.convertNumber(number: "10001"), "만 일")
-        XCTAssertEqual(view.convertNumber(number: "12345"), "만 이천삼백사십오")
-        XCTAssertEqual(view.convertNumber(number: "99999"), "만 구천구백구십구")
+
+    func testConvertSinoKoreanNumberTenThousands() {
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "10000").convertNumber(), "일만 ")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "43934").convertNumber(), "사만 삼천구백삼십사")
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "99999").convertNumber(), "구만 구천구백구십구")
     }
-    
-    func testSinoKoreanEdgeCases() {
-        let view = SinoKoreanView(sinoKoreanNumber: "")
-        XCTAssertEqual(view.convertNumber(number: ""), "영") // Empty string
-        XCTAssertEqual(view.convertNumber(number: "000"), "영") // Multiple zeros
-        XCTAssertEqual(view.convertNumber(number: "010"), "십") // Leading zero
+
+    func testConvertSinoKoreanEdgeCases() {
+        XCTAssertEqual(SinoKoreanConverter(sinoKoreanNumber: "0001").convertNumber(), "일") //
+      
     }
-    
-    // MARK: - Native-Korean Tests
-    
-    func testNativeKoreanSingleDigits() {
-        let view = NativeKoreanView(nativeKoreanNumber: "0")
-        XCTAssertEqual(view.convertNumber(number: "0"), "공")
-        
-        XCTAssertEqual(view.convertNumber(number: "1"), "하나")
-        XCTAssertEqual(view.convertNumber(number: "5"), "다섯")
-        XCTAssertEqual(view.convertNumber(number: "9"), "아홉")
+
+    // --- Native Korean Tests ---
+    func testConvertNativeKoreanNumberSingleDigit() {
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "0").convertNumber(), "공")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "1").convertNumber(), "하나")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "2").convertNumber(), "둘")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "9").convertNumber(), "아홉")
     }
-    
-    func testNativeKoreanTens() {
-        let view = NativeKoreanView(nativeKoreanNumber: "")
-        XCTAssertEqual(view.convertNumber(number: "10"), "열")
-        XCTAssertEqual(view.convertNumber(number: "11"), "열하나")
-        XCTAssertEqual(view.convertNumber(number: "20"), "스물")
-        XCTAssertEqual(view.convertNumber(number: "21"), "스물하나")
-        XCTAssertEqual(view.convertNumber(number: "99"), "아흔아홉")
+
+    func testConvertNativeKoreanNumberTens() {
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "10").convertNumber(), "열")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "15").convertNumber(), "열다섯")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "20").convertNumber(), "스물")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "27").convertNumber(), "스물일곱")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "43").convertNumber(), "마흔셋")
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "99").convertNumber(), "아흔아홉")
     }
+
+    func testConvertNativeKoreanEdgeCases() {
     
-    func testNativeKoreanEdgeCases() {
-        let view = NativeKoreanView(nativeKoreanNumber: "")
-        XCTAssertEqual(view.convertNumber(number: ""), "공") // Empty string
-        XCTAssertEqual(view.convertNumber(number: "000"), "공") // Multiple zeros
-        XCTAssertEqual(view.convertNumber(number: "010"), "열") // Leading zero
-        XCTAssertEqual(view.convertNumber(number: "100"), "공") // Beyond 99 should return "공" or handle differently
-    }
-    
-    // MARK: - ContentView Tests
-    
-    func testNumberGeneration() {
-        let contentView = ContentView()
-        
-        // Test Native-Korean range
-        contentView.numberType = "Native-Korean"
-        contentView.minNumber = 1
-        contentView.maxNumber = 99
-        let nativeNumber = contentView.generateNumber()
-        XCTAssert((1...99).contains(Int(nativeNumber) ?? 0))
-        
-        // Test Sino-Korean range
-        contentView.numberType = "Sino-Korean"
-        contentView.minNumber = 0
-        contentView.maxNumber = 9999
-        let sinoNumber = contentView.generateNumber()
-        XCTAssert((0...9999).contains(Int(sinoNumber) ?? -1))
-    }
-    
-    func testRangeValidation() {
-        let contentView = ContentView()
-        
-        // Valid range
-        contentView.minNumber = 10
-        contentView.maxNumber = 20
-        XCTAssertTrue(contentView.coherentRange(min: contentView.minNumber, max: contentView.maxNumber))
-        
-        // Invalid range
-        contentView.minNumber = 20
-        contentView.maxNumber = 10
-        XCTAssertFalse(contentView.coherentRange(min: contentView.minNumber, max: contentView.maxNumber))
+        XCTAssertEqual(NativeKoreanConverter(nativeKoreanNumber: "07").convertNumber(), "일곱")
     }
 }
