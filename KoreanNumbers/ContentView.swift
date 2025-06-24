@@ -385,7 +385,7 @@ struct ContentView: View {
                                 
                                 Picker("Minimum:", selection: $minNumber) {
                                     ForEach((0..<100), id: \.self) {
-                                        Text("\($0) ")
+                                        Text("\($0)" )
                                     }
                                 }
                                 .pickerStyle(.menu)
